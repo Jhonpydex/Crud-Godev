@@ -1,4 +1,7 @@
 package com.GodevPortalDeTalentos.repositories;
 
-public class GodevRepository {
+import com.GodevPortalDeTalentos.domain.GoDev;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GodevRepository extends JpaRepository<GoDev,Long>{
 }

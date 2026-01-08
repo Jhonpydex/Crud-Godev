@@ -8,7 +8,7 @@ import lombok.Setter;
 
 //Informações total do Dev para o perfil de Gestor
 @Entity
-@Table(name = "Go-dev")
+@Table(name = "Godevs")
 @Getter
 @Setter
 @NoArgsConstructor

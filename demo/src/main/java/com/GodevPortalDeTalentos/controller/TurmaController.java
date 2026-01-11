@@ -20,11 +20,12 @@ public class TurmaController {
 
     @GetMapping
     public List<Turma> listarTodas() {
-        return turmaService.listarTurmas();
+        return turmaService.listarTurmas(); // GET /turmas
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Turma> buscarPorId(@PathVariable Long id) {
+        // retorna turma se encontrada, senão 404
         return turmaService.buscarPorID(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -32,11 +33,12 @@ public class TurmaController {
 
     @PostMapping
     public Turma criar(@RequestBody Turma turma) {
-        return turmaService.salvar(turma);
+        return turmaService.salvar(turma); // POST /turmas
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Turma> atualizar(@PathVariable Long id, @RequestBody Turma turma) {
+        // atualiza nome e descrição da turma
         return turmaService.buscarPorID(id)
                 .map(t -> {
                     t.setNome(turma.getNome());
@@ -48,9 +50,13 @@ public class TurmaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> inativar(@PathVariable Long id) {
-        turmaService.inativar(id);
+        turmaService.inativar(id); // DELETE lógico /turmas/{id}
         return ResponseEntity.noContent().build();
     }
-    /*Os pontos que faltam (atualizar todos os campos, diferenciar turma inexistente no DELETE,
-    validar ativo no POST)*/
+
+    /* pontos de melhoria:
+       - atualizar todos os campos (ano, godevs)
+       - diferenciar turma inexistente no DELETE
+       - validar ativo no POST */
 }
+

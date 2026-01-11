@@ -12,31 +12,32 @@ import java.util.List;
 @RestController
 @RequestMapping("users")
 public class UserController {
-    private final UserRepository repo;//define como versão final o tipo UserRepository para ele ter uma referência fixa pra acessar o banco
-    private final UserService service;
+    private final UserRepository repo; // acesso direto ao banco
+    private final UserService service; // lógica de negócio
 
     @GetMapping
     public List<User> listarTodos(){
-        return service.listarTodos();
-    }//Cria um endpoint GET /users que retorna todos os usuários salvos no banco.
+        return service.listarTodos(); // GET /users
+    }
 
     @GetMapping("/ativos")
     public List<User> listarAtivos(){
-        return service.listarAtivos();
+        return service.listarAtivos(); // GET /users/ativos
     }
 
     @PostMapping
     public String salvar(@Valid @RequestBody User user){
-        return service.cadastrar(user);
-    }//Cria um endpoint Post que cadastra novos usuários
+        return service.cadastrar(user); // POST /users
+    }
 
     @PutMapping("/{id}")
     public String atualizar(@PathVariable Long id ,@Valid @RequestBody User user){
-        return service.atualizar(id,user);
+        return service.atualizar(id,user); // PUT /users/{id}
     }
 
     @DeleteMapping("/{id}")
     public String inativar(@PathVariable Long id) {
-        return service.inativar(id);
+        return service.inativar(id); // DELETE lógico /users/{id}
     }
 }
+

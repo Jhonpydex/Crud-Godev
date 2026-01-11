@@ -8,5 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TokenResponse {
-    private String token;
+    private String token; // JWT gerado e retornado ao cliente
 }
+

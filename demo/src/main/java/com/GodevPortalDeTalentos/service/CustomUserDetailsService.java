@@ -12,16 +12,18 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRepository; // acesso ao banco de usuários
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        // carrega usuário pelo email e monta UserDetails para o Spring Security
         return userRepository.findByEmail(email)
                 .map(user -> User.withUsername(user.getEmail())
                         .password(user.getSenha())
-                        .roles("USER")
+                        .roles("USER") // papel padrão
                         .build())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
     }
 }
+
 

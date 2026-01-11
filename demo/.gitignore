@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Não versionar arquivos de configuração sensíveis
+src/main/resources/application.properties
+.env
+
+#src/main/resources/application.properties → impede que o arquivo de configuração
+#do Spring Boot (onde ficam credenciais de banco, JWT secret etc.) seja enviado pro GitHub.
+#.env → impede que variáveis de ambiente fiquem públicas.

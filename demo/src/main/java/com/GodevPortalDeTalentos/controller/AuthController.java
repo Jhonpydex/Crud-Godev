@@ -17,27 +17,31 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    private UserRepository repo;
+    private UserRepository repo; // acesso ao banco de usuários
 
     @Autowired
-    private BCryptPasswordEncoder encoder;
+    private BCryptPasswordEncoder encoder; // usado para validar senha
 
     @Autowired
-    private JwtService jwtService;
+    private JwtService jwtService; // gera e valida tokens JWT
 
-    // 🔐 Endpoint de login
+    // Endpoint de login
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> autenticar(@RequestBody LoginRequest login) {
         System.out.println("Tentando login com: " + login.getEmail());
 
+        // busca usuário pelo email
         User user = repo.findByEmail(login.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("Email não encontrado"));
 
+        // valida senha informada contra a senha criptografada
         if (!encoder.matches(login.getSenha(), user.getSenha())) {
             throw new BadCredentialsException("Senha inválida");
         }
 
-        String token = jwtService.gerarToken(user.getEmail()); // gera token só com email
+        // gera token JWT com email como subject
+        String token = jwtService.gerarToken(user.getEmail());
         return ResponseEntity.ok(new TokenResponse(token));
     }
 }
+

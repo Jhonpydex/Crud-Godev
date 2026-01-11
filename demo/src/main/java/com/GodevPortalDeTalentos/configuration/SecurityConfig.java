@@ -19,19 +19,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http.csrf(csrf -> csrf.disable()) // desabilita CSRF (não necessário com JWT)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // login liberado
-                        .requestMatchers(HttpMethod.POST, "/users").permitAll() // cadastro liberado
-                        .requestMatchers(HttpMethod.GET, "/users").permitAll() // busca liberada
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // login público
+                        .requestMatchers(HttpMethod.POST, "/users").permitAll()      // cadastro público
+                        .requestMatchers(HttpMethod.GET, "/users").permitAll()       // busca pública
                         .requestMatchers(HttpMethod.PUT, "/users/**").authenticated() // PUT exige token
-                        .anyRequest().authenticated()
+                        .anyRequest().authenticated() // demais endpoints exigem autenticação
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // sem sessão, apenas JWT
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // aplica filtro JWT
 
         return http.build();
@@ -39,18 +37,19 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
+        // carrega usuário pelo email e monta UserDetails para o Spring Security
         return username -> userRepository.findByEmail(username)
                 .map(user -> User.withUsername(user.getEmail())
                         .password(user.getSenha())
-                        .roles("USER") // ou "ADMIN", se quiser diferenciar
+                        .roles("USER") // pode trocar para "ADMIN" se necessário
                         .build())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + username));
     }
 
-
-
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); }
+        return new BCryptPasswordEncoder(); // encoder para senhas
+    }
 }
+
 

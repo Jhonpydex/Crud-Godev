@@ -20,10 +20,10 @@ import java.util.Enumeration;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtService jwtService;
+    private JwtService jwtService; // serviço que lida com geração/validação de tokens
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService; // carrega dados do usuário pelo email
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -34,12 +34,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String method = request.getMethod();
         System.out.println("[JWT] Requisição interceptada: " + method + " " + uri);
 
-        // 🔐 Ignorar login
+        // ignora autenticação para endpoints de login
         if (uri.equals("/auth") || uri.equals("/auth/login")) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        // log de headers recebidos (debug)
         Enumeration<String> headers = request.getHeaderNames();
         System.out.println("[JWT] Headers recebidos:");
         while (headers.hasMoreElements()) {
@@ -54,13 +55,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         } else if (!authHeader.startsWith("Bearer ")) {
             System.out.println("[JWT] Falha: Header Authorization não começa com 'Bearer '");
         } else {
-            String token = authHeader.substring(7);
+            String token = authHeader.substring(7); // remove prefixo "Bearer "
             System.out.println("[JWT] Token recebido: " + token);
 
             try {
-                String email = jwtService.extrairEmail(token);
+                String email = jwtService.extrairEmail(token); // pega email do payload
                 System.out.println("[JWT] Email extraído do token: " + email);
 
+                // autentica usuário se ainda não estiver no contexto
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = userDetailsService.loadUserByUsername(email);
                     System.out.println("[JWT] UserDetails carregado: " + userDetails.getUsername());
@@ -76,7 +78,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 System.out.println("[JWT] Erro ao extrair email ou autenticar: " + e.getMessage());
             }
         }
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response); // segue fluxo normal
     }
 }
 

@@ -20,13 +20,14 @@ public class UserService {
     }
 
     @Autowired
-    private BCryptPasswordEncoder encoder;
+    private BCryptPasswordEncoder encoder; // usado para criptografar senhas
 
     public String cadastrar(User user) {
+        // evita duplicidade de email
         if (repo.findByEmail(user.getEmail()).isPresent()) {
             return "Usuário já cadastrado!";
         } else {
-            // Criptografa a senha antes de salvar
+            // senha sempre criptografada antes de salvar
             user.setSenha(encoder.encode(user.getSenha()));
             repo.save(user);
             return "Usuário cadastrado com sucesso!";
@@ -34,18 +35,18 @@ public class UserService {
     }
 
     public List<User> listarTodos(){
-      return repo.findAll();
+        return repo.findAll(); // retorna todos, inclusive inativos
     }
 
     public List<User> listarAtivos(){
-        return repo.findByAtivoTrue();
+        return repo.findByAtivoTrue(); // apenas usuários ativos
     }
-
 
     public String atualizar(Long id, User novoUser) {
         User existente = repo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário com id " + id + " não encontrado"));
 
+        // valida se email já pertence a outro usuário
         Optional<User> outro = repo.findByEmail(novoUser.getEmail());
         if (outro.isPresent() && !outro.get().getId().equals(id)) {
             throw new IllegalArgumentException("Email já está em uso por outro usuário");
@@ -55,20 +56,19 @@ public class UserService {
         existente.setEmail(novoUser.getEmail());
 
         if (novoUser.getRole() != null) {
-            existente.setRole(novoUser.getRole());
+            existente.setRole(novoUser.getRole()); // atualiza role se informado
         }
 
         if (novoUser.getSenha() != null && !novoUser.getSenha().isBlank()) {
-            existente.setSenha(encoder.encode(novoUser.getSenha()));
+            existente.setSenha(encoder.encode(novoUser.getSenha())); // recriptografa nova senha
         }
 
         repo.save(existente);
         return "Usuário Atualizado com Sucesso!";
     }
 
-
-
     public String inativar(Long id) {
+        // delete lógico: apenas marca como inativo
         return repo.findById(id)
                 .map(user -> {
                     user.setAtivo(false);
@@ -76,6 +76,6 @@ public class UserService {
                     return "Usuário inativado com sucesso!";
                 }).orElse("Usuário não encontrado!");
     }
-
 }
+
 

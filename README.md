@@ -1,11 +1,14 @@
 📚 GoDev Portal de Talentos
+
 🚀 Sobre o projeto
+
 O GoDev Portal de Talentos é uma aplicação desenvolvida em Java + Spring Boot com integração ao PostgreSQL.
 O objetivo é oferecer uma plataforma para gestores organizarem turmas e acompanharem os desenvolvedores (GoDevs), centralizando informações como perfis, dossiês e vínculos com turmas específicas.
 
 De forma simples: é um sistema que conecta Turmas e GoDevs, permitindo criar, atualizar, listar e gerenciar essas entidades de forma prática.
 
 🛠️ Tecnologias utilizadas
+
 Java 17
 
 Spring Boot
@@ -21,6 +24,7 @@ Lombok
 JWT (para autenticação e segurança)
 
 📂 Estrutura principal
+
 User → representa os usuários do sistema (login/autenticação).
 
 Turma → organiza grupos de desenvolvedores, com nome, descrição, ano e status ativo/inativo.
@@ -28,6 +32,7 @@ Turma → organiza grupos de desenvolvedores, com nome, descrição, ano e statu
 GoDev → perfil completo do desenvolvedor, incluindo nome, email, foto e dossiê, vinculado a uma turma.
 
 🔗 Endpoints principais
+
 Turmas
 GET /turmas → lista todas as turmas
 

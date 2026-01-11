@@ -3,23 +3,31 @@ package com.GodevPortalDeTalentos.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 //Informações da Turma Respectiva
 @Entity
 @Table(name = "turmas")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class Turma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String nome;
     private String descricao;
     private Integer ano;
-    //Get e Set
+    private boolean ativo = true;
+
+    @ManyToMany
+    @JoinTable(
+            name = "turma_godev",
+            joinColumns = @JoinColumn(name = "turma_id"),
+            inverseJoinColumns = @JoinColumn(name = "godev_id")
+    )
+    private List<User> godevs;
+
 }

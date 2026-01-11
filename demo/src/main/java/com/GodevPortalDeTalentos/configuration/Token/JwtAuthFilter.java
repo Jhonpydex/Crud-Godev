@@ -34,7 +34,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String method = request.getMethod();
         System.out.println("[JWT] Requisição interceptada: " + method + " " + uri);
 
-        // Log de todos os headers recebidos
+        // 🔐 Ignorar login
+        if (uri.equals("/auth") || uri.equals("/auth/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         Enumeration<String> headers = request.getHeaderNames();
         System.out.println("[JWT] Headers recebidos:");
         while (headers.hasMoreElements()) {
@@ -71,10 +76,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 System.out.println("[JWT] Erro ao extrair email ou autenticar: " + e.getMessage());
             }
         }
-
         filterChain.doFilter(request, response);
     }
-
-
 }
 

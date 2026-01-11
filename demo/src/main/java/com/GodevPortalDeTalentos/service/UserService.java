@@ -3,16 +3,13 @@ package com.GodevPortalDeTalentos.service;
 import com.GodevPortalDeTalentos.domain.User;
 import com.GodevPortalDeTalentos.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.Id;
-
-import org.hibernate.action.internal.EntityActionVetoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class UserService {
@@ -29,11 +26,19 @@ public class UserService {
         if (repo.findByEmail(user.getEmail()).isPresent()) {
             return "Usuário já cadastrado!";
         } else {
-            // 👉 Criptografa a senha antes de salvar
+            // Criptografa a senha antes de salvar
             user.setSenha(encoder.encode(user.getSenha()));
             repo.save(user);
             return "Usuário cadastrado com sucesso!";
         }
+    }
+
+    public List<User> listarTodos(){
+      return repo.findAll();
+    }
+
+    public List<User> listarAtivos(){
+        return repo.findByAtivoTrue();
     }
 
 
@@ -48,20 +53,29 @@ public class UserService {
 
         existente.setNome(novoUser.getNome());
         existente.setEmail(novoUser.getEmail());
-        existente.setSenha(novoUser.getSenha());
+
+        if (novoUser.getRole() != null) {
+            existente.setRole(novoUser.getRole());
+        }
+
+        if (novoUser.getSenha() != null && !novoUser.getSenha().isBlank()) {
+            existente.setSenha(encoder.encode(novoUser.getSenha()));
+        }
 
         repo.save(existente);
         return "Usuário Atualizado com Sucesso!";
-
     }
 
 
-    public String deletar(Long id){
+
+    public String inativar(Long id) {
         return repo.findById(id)
                 .map(user -> {
-                    repo.delete(user);
-                    return "Usuário deletado com sucesso!";
+                    user.setAtivo(false);
+                    repo.save(user);
+                    return "Usuário inativado com sucesso!";
                 }).orElse("Usuário não encontrado!");
     }
+
 }
 

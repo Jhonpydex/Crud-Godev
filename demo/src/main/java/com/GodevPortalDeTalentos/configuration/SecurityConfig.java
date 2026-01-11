@@ -2,7 +2,6 @@ package com.GodevPortalDeTalentos.configuration;
 
 import com.GodevPortalDeTalentos.configuration.Token.JwtAuthFilter;
 import com.GodevPortalDeTalentos.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,7 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/auth").permitAll() // login liberado
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // login liberado
                         .requestMatchers(HttpMethod.POST, "/users").permitAll() // cadastro liberado
                         .requestMatchers(HttpMethod.GET, "/users").permitAll() // busca liberada
                         .requestMatchers(HttpMethod.PUT, "/users/**").authenticated() // PUT exige token

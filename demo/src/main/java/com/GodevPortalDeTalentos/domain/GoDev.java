@@ -28,5 +28,4 @@ public class GoDev {
     @ManyToOne
     @JoinColumn(name = "turma_id")
     private Turma turma;
-//Get e Set
 }

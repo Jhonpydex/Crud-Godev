@@ -1,8 +1,8 @@
 package com.GodevPortalDeTalentos.controller;
 
-import com.GodevPortalDeTalentos.domain.User;
-import com.GodevPortalDeTalentos.repositories.UserRepository;
-import com.GodevPortalDeTalentos.service.UserService;
+import com.GodevPortalDeTalentos.domain.User.User;
+import com.GodevPortalDeTalentos.domain.User.Repository.UserRepository;
+import com.GodevPortalDeTalentos.domain.User.Service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

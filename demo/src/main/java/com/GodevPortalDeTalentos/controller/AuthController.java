@@ -2,8 +2,8 @@ package com.GodevPortalDeTalentos.controller;
 
 import com.GodevPortalDeTalentos.configuration.Token.LoginRequest;
 import com.GodevPortalDeTalentos.configuration.Token.TokenResponse;
-import com.GodevPortalDeTalentos.domain.User;
-import com.GodevPortalDeTalentos.repositories.UserRepository;
+import com.GodevPortalDeTalentos.domain.User.User;
+import com.GodevPortalDeTalentos.domain.User.Repository.UserRepository;
 import com.GodevPortalDeTalentos.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

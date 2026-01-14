@@ -1,6 +1,10 @@
-package com.GodevPortalDeTalentos.domain;
+package com.GodevPortalDeTalentos.domain.Turma;
 
+import com.GodevPortalDeTalentos.domain.Godev.GoDev;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +21,16 @@ public class Turma {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Nome da turma é obrigatório!")
     private String nome;
+
+    @NotBlank(message = "Descrição é obrigatória!")
     private String descricao;
+
+    @Min(value = 2020, message = "Ano mínimo permitido é 2020")
+    @Max(value = 2026, message = "Ano máximo permitido é 2026")
     private Integer ano;
+
     private boolean ativo = true;
 
     @ManyToMany
@@ -28,6 +39,7 @@ public class Turma {
             joinColumns = @JoinColumn(name = "turma_id"),
             inverseJoinColumns = @JoinColumn(name = "godev_id")
     )
-    private List<User> godevs;
+    @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
+    private List<GoDev> godevs;
 
 }

@@ -1,8 +1,8 @@
 package com.GodevPortalDeTalentos.controller;
 
 
-import com.GodevPortalDeTalentos.domain.Turma;
-import com.GodevPortalDeTalentos.service.TurmaService;
+import com.GodevPortalDeTalentos.domain.Turma.Turma;
+import com.GodevPortalDeTalentos.domain.Turma.Service.TurmaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
 package com.GodevPortalDeTalentos.configuration;
 
 import com.GodevPortalDeTalentos.configuration.Token.JwtAuthFilter;
-import com.GodevPortalDeTalentos.repositories.UserRepository;
+import com.GodevPortalDeTalentos.domain.User.Repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

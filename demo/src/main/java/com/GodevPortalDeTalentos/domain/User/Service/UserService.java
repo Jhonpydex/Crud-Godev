@@ -1,7 +1,8 @@
-package com.GodevPortalDeTalentos.service;
+package com.GodevPortalDeTalentos.domain.User.Service;
 
-import com.GodevPortalDeTalentos.domain.User;
-import com.GodevPortalDeTalentos.repositories.UserRepository;
+import com.GodevPortalDeTalentos.domain.Enum.enums;
+import com.GodevPortalDeTalentos.domain.User.User;
+import com.GodevPortalDeTalentos.domain.User.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,6 +42,15 @@ public class UserService {
     public List<User> listarAtivos(){
         return repo.findByAtivoTrue(); // apenas usuários ativos
     }
+
+    public User buscarEmailAtivo(String email){
+        return repo.findByEmailAndAtivoTrue(email)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário ativo não encontrado!"));
+    }//Busca apenas emails ativos
+
+    public List<User> buscarEnum(enums.Role role){
+        return repo.findByRole(role);
+    }//busca o tipo de perfil dentro do enum (Gestor ou Lider)
 
     public String atualizar(Long id, User novoUser) {
         User existente = repo.findById(id)

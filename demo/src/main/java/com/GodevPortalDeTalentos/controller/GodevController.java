@@ -1,7 +1,7 @@
 package com.GodevPortalDeTalentos.controller;
 
-import com.GodevPortalDeTalentos.domain.GoDev;
-import com.GodevPortalDeTalentos.service.GodevService;
+import com.GodevPortalDeTalentos.domain.Godev.GoDev;
+import com.GodevPortalDeTalentos.domain.Godev.Service.GodevService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

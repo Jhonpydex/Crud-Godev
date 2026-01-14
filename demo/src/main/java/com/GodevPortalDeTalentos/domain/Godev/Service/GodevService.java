@@ -1,9 +1,9 @@
-package com.GodevPortalDeTalentos.service;
+package com.GodevPortalDeTalentos.domain.Godev.Service;
 
-import com.GodevPortalDeTalentos.domain.GoDev;
-import com.GodevPortalDeTalentos.domain.Turma;
-import com.GodevPortalDeTalentos.repositories.GodevRepository;
-import com.GodevPortalDeTalentos.repositories.TurmaRepository;
+import com.GodevPortalDeTalentos.domain.Godev.GoDev;
+import com.GodevPortalDeTalentos.domain.Turma.Turma;
+import com.GodevPortalDeTalentos.domain.Godev.Repository.GodevRepository;
+import com.GodevPortalDeTalentos.domain.Turma.Repository.TurmaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +26,16 @@ public class GodevService {
         return repo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("GoDev com id " + id + " não encontrado"));
     }
+
+    public GoDev buscarPorEmail(String email) {
+        // lança exceção se não encontrar
+        return (GoDev) repo.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("GoDev com email: " + email + " não encontrado"));
+    }//busca email
+
+    public List<GoDev> buscarTurmaPorId(Long turmaId){
+        return repo.findByTurmaIdAndAtivoTrue(turmaId);
+    }//busca a turma pelo id
 
     public GoDev salvar(GoDev godev) {
         // garante que a turma informada existe antes de salvar

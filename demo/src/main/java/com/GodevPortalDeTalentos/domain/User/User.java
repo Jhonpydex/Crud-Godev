@@ -1,4 +1,7 @@
-package com.GodevPortalDeTalentos.domain;import jakarta.persistence.*;
+package com.GodevPortalDeTalentos.domain.User;
+
+import com.GodevPortalDeTalentos.domain.Enum.enums;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -32,13 +35,11 @@ public class User {
             regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
             message = "Email inválido, deve conter @ e domínio válido"
     )
+    @Column(unique = true) // garante unicidade do banco
     private String email;
 
-    public enum Role{
-        GESTOR, LIDER, GODEV
-    }
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private enums.Role role;
 
     private boolean ativo = true;//padrão ativo
 }

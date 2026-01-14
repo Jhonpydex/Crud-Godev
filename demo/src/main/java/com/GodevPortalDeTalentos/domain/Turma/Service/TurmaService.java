@@ -1,7 +1,7 @@
-package com.GodevPortalDeTalentos.service;
+package com.GodevPortalDeTalentos.domain.Turma.Service;
 
-import com.GodevPortalDeTalentos.domain.Turma;
-import com.GodevPortalDeTalentos.repositories.TurmaRepository;
+import com.GodevPortalDeTalentos.domain.Turma.Turma;
+import com.GodevPortalDeTalentos.domain.Turma.Repository.TurmaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +21,15 @@ public class TurmaService {
     public List<Turma> listarAtivas() {
         return repo.findByAtivoTrue(); // apenas turmas ativas
     }
+
+    public List<Turma> listarAno(Integer ano){
+        return repo.findByAno(ano);
+    }//Lista o Ano da turma
+
+    public Optional<Turma> listarNome(String nome){
+        return repo.findByNome(nome);
+    }
+
 
     public Optional<Turma> buscarPorID(Long id) {
         return repo.findById(id); // busca turma pelo ID

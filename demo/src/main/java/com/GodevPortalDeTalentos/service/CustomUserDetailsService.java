@@ -1,6 +1,6 @@
 package com.GodevPortalDeTalentos.service;
 
-import com.GodevPortalDeTalentos.repositories.UserRepository;
+import com.GodevPortalDeTalentos.domain.User.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

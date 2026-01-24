@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("users")
 public class UserController {
-    private final UserRepository repo; // acesso direto ao banco
     private final UserService service; // lógica de negócio
 
     @GetMapping

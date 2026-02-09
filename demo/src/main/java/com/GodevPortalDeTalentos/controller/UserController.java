@@ -1,10 +1,12 @@
 package com.GodevPortalDeTalentos.controller;
 
+import com.GodevPortalDeTalentos.Validation.OnCreate;
+import com.GodevPortalDeTalentos.Validation.OnUpdate;
 import com.GodevPortalDeTalentos.domain.User.User;
-import com.GodevPortalDeTalentos.domain.User.Repository.UserRepository;
 import com.GodevPortalDeTalentos.domain.User.Service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,12 +27,13 @@ public class UserController {
     }
 
     @PostMapping
-    public String salvar(@Valid @RequestBody User user){
-        return service.cadastrar(user); // POST /users
+    public String salvar(@RequestBody  User user){
+        return service.cadastrar(user);
     }
 
+
     @PutMapping("/{id}")
-    public String atualizar(@PathVariable Long id ,@Valid @RequestBody User user){
+    public String atualizar(@PathVariable Long id , @RequestBody @Validated(OnUpdate.class) User user){
         return service.atualizar(id,user); // PUT /users/{id}
     }
 

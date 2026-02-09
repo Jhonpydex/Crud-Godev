@@ -3,6 +3,7 @@ package com.GodevPortalDeTalentos.controller;
 
 import com.GodevPortalDeTalentos.domain.Turma.Turma;
 import com.GodevPortalDeTalentos.domain.Turma.Service.TurmaService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class TurmaController {
     }
 
     @PostMapping
-    public Turma criar(@RequestBody Turma turma) {
+    public Turma criar(@Valid @RequestBody Turma turma) {
         return turmaService.salvar(turma); // POST /turmas
     }
 

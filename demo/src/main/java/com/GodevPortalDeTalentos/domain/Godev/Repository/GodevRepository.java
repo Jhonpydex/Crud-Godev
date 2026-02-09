@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GodevRepository extends JpaRepository<GoDev,Long>{
-    Optional<Object> findByEmail(String email);
+    Optional<GoDev> findByEmail(String email);
     List<GoDev> findByTurmaIdAndAtivoTrue(Long turmaId);
 
 }

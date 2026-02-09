@@ -1,0 +1,4 @@
+ALTER TABLE user ADD COLUMN IF NOt EXISTS ativo boolean
+DEFAULT true;
+ALTER TABLE user ADD COLUMN IF NOT EXISTS role varchar(50);
+ALTER TABLE user ADD COLUMN IF NOT EXISTS senha varchar(255);

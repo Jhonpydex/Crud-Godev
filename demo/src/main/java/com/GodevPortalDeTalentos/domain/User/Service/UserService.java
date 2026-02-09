@@ -1,6 +1,6 @@
 package com.GodevPortalDeTalentos.domain.User.Service;
 
-import com.GodevPortalDeTalentos.domain.Enum.enums;
+import com.GodevPortalDeTalentos.domain.User.Enum.Role;
 import com.GodevPortalDeTalentos.domain.User.User;
 import com.GodevPortalDeTalentos.domain.User.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,12 +26,13 @@ public class UserService {
     public String cadastrar(User user) {
         // evita duplicidade de email
         if (repo.findByEmail(user.getEmail()).isPresent()) {
-            return "Usuário já cadastrado!";
-        } else {
-            // senha sempre criptografada antes de salvar
-            user.setSenha(encoder.encode(user.getSenha()));
-            repo.save(user);
-            return "Usuário cadastrado com sucesso!";
+            return "Email já cadastrado!";
+        }else{
+         user.setSenha(encoder.encode(user.getSenha()));
+         user.setAtivo(true);
+
+         repo.save(user);
+         return "Usuário cadastrado!";
         }
     }
 
@@ -48,7 +49,7 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("Usuário ativo não encontrado!"));
     }//Busca apenas emails ativos
 
-    public List<User> buscarEnum(enums.Role role){
+    public List<User> buscarEnum(Role role){
         return repo.findByRole(role);
     }//busca o tipo de perfil dentro do enum (Gestor ou Lider)
 

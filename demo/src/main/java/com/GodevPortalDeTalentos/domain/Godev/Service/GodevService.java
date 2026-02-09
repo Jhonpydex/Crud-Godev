@@ -29,7 +29,7 @@ public class GodevService {
 
     public GoDev buscarPorEmail(String email) {
         // lança exceção se não encontrar
-        return (GoDev) repo.findByEmail(email)
+        return  repo.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("GoDev com email: " + email + " não encontrado"));
     }//busca email
 
@@ -44,6 +44,11 @@ public class GodevService {
                     .orElseThrow(() -> new EntityNotFoundException("Turma não encontrada"));
             godev.setTurma(turma);
         }
+
+        if (repo.findByEmail(godev.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email já cadastrado para outro GoDev.");
+        }
+
         return repo.save(godev);
     }
 
@@ -62,7 +67,6 @@ public class GodevService {
                     .orElseThrow(() -> new EntityNotFoundException("Turma não encontrada"));
             existente.setTurma(turma);
         }
-
         return repo.save(existente);
     }
 

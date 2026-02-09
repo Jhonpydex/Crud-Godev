@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Turma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,13 +35,7 @@ public class Turma {
 
     private boolean ativo = true;
 
-    @ManyToMany
-    @JoinTable(
-            name = "turma_godev",
-            joinColumns = @JoinColumn(name = "turma_id"),
-            inverseJoinColumns = @JoinColumn(name = "godev_id")
-    )
-    @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "turma", cascade = CascadeType.PERSIST)
     private List<GoDev> godevs;
 
 }

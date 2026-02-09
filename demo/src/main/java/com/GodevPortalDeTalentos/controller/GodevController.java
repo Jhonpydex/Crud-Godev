@@ -2,6 +2,7 @@ package com.GodevPortalDeTalentos.controller;
 
 import com.GodevPortalDeTalentos.domain.Godev.GoDev;
 import com.GodevPortalDeTalentos.domain.Godev.Service.GodevService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class GodevController {
     }
 
     @PostMapping
-    public ResponseEntity<GoDev> criar(@RequestBody GoDev godev) {
+    public ResponseEntity<GoDev> criar(@Valid @RequestBody GoDev godev) {
         return ResponseEntity.ok(service.salvar(godev)); // POST /godevs
     }
 
